@@ -29,6 +29,8 @@
 
 #include "mdss_dsi.h"
 #include "mdss_dba_utils.h"
+#include "mdss_mdp.h"
+#include "mdss_livedisplay.h"
 
 #define DT_CMD_HDR 6
 #define MIN_REFRESH_RATE 48
@@ -156,7 +158,7 @@ u32 mdss_dsi_panel_cmd_read(struct mdss_dsi_ctrl_pdata *ctrl, char cmd0,
 	return 0;
 }
 
-static void mdss_dsi_panel_cmds_send(struct mdss_dsi_ctrl_pdata *ctrl,
+void mdss_dsi_panel_cmds_send(struct mdss_dsi_ctrl_pdata *ctrl,
 			struct dsi_panel_cmds *pcmds, u32 flags)
 {
 	struct dcs_cmd_req cmdreq;
@@ -760,6 +762,8 @@ static int mdss_dsi_post_panel_on(struct mdss_panel_data *pdata)
 		mdss_dba_utils_hdcp_enable(pinfo->dba_data, true);
 	}
 
+	mdss_livedisplay_update(ctrl, MODE_UPDATE_ALL);
+
 end:
 	pr_debug("%s:-\n", __func__);
 	return 0;
@@ -847,7 +851,7 @@ static void mdss_dsi_parse_trigger(struct device_node *np, char *trigger,
 }
 
 
-static int mdss_dsi_parse_dcs_cmds(struct device_node *np,
+int mdss_dsi_parse_dcs_cmds(struct device_node *np,
 		struct dsi_panel_cmds *pcmds, char *cmd_key, char *link_key)
 {
 	const char *data;
@@ -2266,8 +2270,12 @@ static int mdss_panel_parse_dt(struct device_node *np,
 
 	mdss_dsi_parse_dfps_config(np, ctrl_pdata);
 
+<<<<<<< HEAD
 	pinfo->is_dba_panel = of_property_read_bool(np,
 			"qcom,dba-panel");
+=======
+	mdss_livedisplay_parse_dt(np, pinfo);
+>>>>>>> 794564b... video: mdss: LiveDisplay driver
 
 	return 0;
 
