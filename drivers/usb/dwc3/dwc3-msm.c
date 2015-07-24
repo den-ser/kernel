@@ -1798,7 +1798,7 @@ static void dwc3_chg_detect_work(struct work_struct *w)
 								&mdwc->charger);
 								return;
 	default:
-		pm_runtime_put_sync(mdwc->dev);
+		pm_runtime_put(mdwc->dev);
 		return;
 	}
 
