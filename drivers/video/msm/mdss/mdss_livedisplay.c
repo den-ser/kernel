@@ -137,7 +137,6 @@ exit_free:
  */
 static int mdss_livedisplay_update_pcc(struct mdss_livedisplay_ctx *mlc)
 {
-	u32 copyback = 0;
 	static struct mdp_pcc_cfg_data pcc_cfg;
 
 	if (mlc == NULL)
@@ -159,7 +158,7 @@ static int mdss_livedisplay_update_pcc(struct mdss_livedisplay_ctx *mlc)
 	pcc_cfg.g.g = mlc->g;
 	pcc_cfg.b.b = mlc->b;
 
-	return mdss_mdp_pcc_config(&pcc_cfg, &copyback);
+	return mdss_mdp_user_pcc_config(&pcc_cfg);
 }
 
 /*
