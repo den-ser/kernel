@@ -2270,12 +2270,10 @@ static int mdss_panel_parse_dt(struct device_node *np,
 
 	mdss_dsi_parse_dfps_config(np, ctrl_pdata);
 
-<<<<<<< HEAD
 	pinfo->is_dba_panel = of_property_read_bool(np,
 			"qcom,dba-panel");
-=======
+
 	mdss_livedisplay_parse_dt(np, pinfo);
->>>>>>> 794564b... video: mdss: LiveDisplay driver
 
 	return 0;
 
