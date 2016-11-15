@@ -219,6 +219,11 @@ static int bluesleep_rfkill_set_power(void *data, bool blocked)
 
 	BT_DBG("Bluetooth device set power\n");
 
+#if defined(CONFIG_ARCH_SONY_LOIRE)
+	if (bsi->uport == NULL)
+		bsi->uport = msm_hs_get_uart_port(BT_PORT_ID);
+#endif
+
 	regOnGpio = gpio_get_value(bsi->bt_reg_on);
 	if (!bt_batfet) {
 		bt_batfet = regulator_get(NULL, "batfet");
@@ -241,6 +246,11 @@ static int bluesleep_rfkill_set_power(void *data, bool blocked)
 				pr_warn("%s: Can't enable regulator!\n",
 								__func__);
 		}
+#if defined(CONFIG_ARCH_SONY_LOIRE)
+		/* Enable MSM serial clock for ttyHS(x) */
+		msm_hs_request_clock_on(bsi->uport);
+		msm_hs_set_mctrl(bsi->uport, TIOCM_RTS);
+#endif
 		gpio_set_value(bsi->bt_reg_on, 1);
 		gpio_set_value(bsi->ext_wake, 1);
 	} else {
@@ -249,6 +259,11 @@ static int bluesleep_rfkill_set_power(void *data, bool blocked)
 				regOnGpio);
 			return 0;
 		}
+#if defined(CONFIG_ARCH_SONY_LOIRE)
+		/* Powering off: Disable serial clocks */
+		msm_hs_set_mctrl(bsi->uport, 0);
+		msm_hs_request_clock_off(bsi->uport);
+#endif
 		gpio_set_value(bsi->bt_reg_on, 0);
 		if (bt_batfet)
 			regulator_disable(bt_batfet);
