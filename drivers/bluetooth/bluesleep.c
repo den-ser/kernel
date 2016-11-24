@@ -219,7 +219,7 @@ static int bluesleep_rfkill_set_power(void *data, bool blocked)
 
 	BT_DBG("Bluetooth device set power\n");
 
-#if defined(CONFIG_ARCH_SONY_LOIRE)
+#if defined(CONFIG_ARCH_SONY_LOIRE) || defined(CONFIG_MACH_SONY_SCORPION)
 	if (bsi->uport == NULL)
 		bsi->uport = msm_hs_get_uart_port(BT_PORT_ID);
 #endif
@@ -246,7 +246,7 @@ static int bluesleep_rfkill_set_power(void *data, bool blocked)
 				pr_warn("%s: Can't enable regulator!\n",
 								__func__);
 		}
-#if defined(CONFIG_ARCH_SONY_LOIRE)
+#if defined(CONFIG_ARCH_SONY_LOIRE) || defined(CONFIG_MACH_SONY_SCORPION)
 		/* Enable MSM serial clock for ttyHS(x) */
 		msm_hs_request_clock_on(bsi->uport);
 		msm_hs_set_mctrl(bsi->uport, TIOCM_RTS);
@@ -259,7 +259,7 @@ static int bluesleep_rfkill_set_power(void *data, bool blocked)
 				regOnGpio);
 			return 0;
 		}
-#if defined(CONFIG_ARCH_SONY_LOIRE)
+#if defined(CONFIG_ARCH_SONY_LOIRE) || defined(CONFIG_MACH_SONY_SCORPION)
 		/* Powering off: Disable serial clocks */
 		msm_hs_set_mctrl(bsi->uport, 0);
 		msm_hs_request_clock_off(bsi->uport);
