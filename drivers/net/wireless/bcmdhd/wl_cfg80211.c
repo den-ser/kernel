@@ -7526,7 +7526,9 @@ wl_cfg80211_sched_scan_start(struct wiphy *wiphy,
 		}
 
 		spin_lock_irqsave(&cfg->cfgdrv_lock, flags);
+#ifdef WL_SCHED_SCAN
 		cfg->sched_scan_req = request;
+#endif
 		spin_unlock_irqrestore(&cfg->cfgdrv_lock, flags);
 	} else {
 		ret = -EINVAL;
@@ -7564,7 +7566,9 @@ wl_cfg80211_sched_scan_stop(struct wiphy *wiphy, struct net_device *dev)
 		wl_notify_escan_complete(cfg, dev, true, true);
 	}
 	spin_lock_irqsave(&cfg->cfgdrv_lock, flags);
+#ifdef WL_SCHED_SCAN
 	cfg->sched_scan_req = NULL;
+#endif
 	cfg->sched_scan_running = FALSE;
 	spin_unlock_irqrestore(&cfg->cfgdrv_lock, flags);
 	return 0;
@@ -8254,7 +8258,11 @@ static s32 wl_inform_single_bss(struct bcm_cfg80211 *cfg, struct wl_bss_info *bi
 #endif /* (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 9, 0) */
 
 	if (DBG_RING_ACTIVE(dhdp, DHD_EVENT_RING_ID) &&
-		(cfg->sched_scan_req && !cfg->scan_request)) {
+		(
+#ifdef WL_SCHED_SCAN
+		cfg->sched_scan_req && 
+#endif
+		!cfg->scan_request)) {
 		alloc_len = sizeof(log_conn_event_t) + (3 * sizeof(tlv_log)) +
 						IEEE80211_MAX_SSID_LEN + sizeof(uint16) +
 						sizeof(int16);
