@@ -7525,11 +7525,12 @@ wl_cfg80211_sched_scan_start(struct wiphy *wiphy,
 			}
 		}
 
-		spin_lock_irqsave(&cfg->cfgdrv_lock, flags);
 #ifdef WL_SCHED_SCAN
+		spin_lock_irqsave(&cfg->cfgdrv_lock, flags);
 		cfg->sched_scan_req = request;
-#endif
 		spin_unlock_irqrestore(&cfg->cfgdrv_lock, flags);
+#endif
+
 	} else {
 		ret = -EINVAL;
 	}
@@ -7565,12 +7566,14 @@ wl_cfg80211_sched_scan_stop(struct wiphy *wiphy, struct net_device *dev)
 		WL_PNO((">>> Sched scan running. Aborting it..\n"));
 		wl_notify_escan_complete(cfg, dev, true, true);
 	}
-	spin_lock_irqsave(&cfg->cfgdrv_lock, flags);
+
 #ifdef WL_SCHED_SCAN
+	spin_lock_irqsave(&cfg->cfgdrv_lock, flags);
 	cfg->sched_scan_req = NULL;
-#endif
 	cfg->sched_scan_running = FALSE;
 	spin_unlock_irqrestore(&cfg->cfgdrv_lock, flags);
+#endif
+
 	return 0;
 }
 #endif /* WL_SCHED_SCAN */
@@ -8257,11 +8260,10 @@ static s32 wl_inform_single_bss(struct bcm_cfg80211 *cfg, struct wl_bss_info *bi
 	cfg80211_put_bss(cbss);
 #endif /* (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 9, 0) */
 
+#ifdef WL_SCHED_SCAN
 	if (DBG_RING_ACTIVE(dhdp, DHD_EVENT_RING_ID) &&
 		(
-#ifdef WL_SCHED_SCAN
 		cfg->sched_scan_req && 
-#endif
 		!cfg->scan_request)) {
 		alloc_len = sizeof(log_conn_event_t) + (3 * sizeof(tlv_log)) +
 						IEEE80211_MAX_SSID_LEN + sizeof(uint16) +
@@ -8302,6 +8304,7 @@ static s32 wl_inform_single_bss(struct bcm_cfg80211 *cfg, struct wl_bss_info *bi
 			event_data, payload_len);
 		MFREE(dhdp->osh, event_data, alloc_len);
 	}
+#endif
 
 out_err:
 	kfree(notif_bss_info);
