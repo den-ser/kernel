@@ -160,8 +160,8 @@ static atomic_t open_count = ATOMIC_INIT(1);
 /*
  * Local function prototypes
  */
-/*static*/ int bluesleep_start(void);
-/*static*/ void bluesleep_stop(void);
+int bluesleep_start(void);
+void bluesleep_stop(void);
 
 /*
  * Global variables
@@ -365,7 +365,7 @@ static void bluesleep_hostwake_task(unsigned long data)
  * Handles proper timer action when outgoing data is delivered to the
  * HCI line discipline. Sets BT_TXDATA.
  */
-/*static*/ void bluesleep_outgoing_data(void)
+void bluesleep_outgoing_data(void)
 {
 	unsigned long irq_flags;
 	int power_on_uart = 0;
@@ -480,7 +480,7 @@ static irqreturn_t bluesleep_hostwake_isr(int irq, void *dev_id)
  * @return On success, 0. On error, -1, and <code>errno</code> is set
  * appropriately.
  */
-/*static*/ int bluesleep_start(void)
+int bluesleep_start(void)
 {
 	unsigned long irq_flags;
 
@@ -528,7 +528,7 @@ EXPORT_SYMBOL(bluesleep_start);
 /**
  * Stops the Sleep-Mode Protocol on the Host.
  */
-/*static*/ void bluesleep_stop(void)
+void bluesleep_stop(void)
 {
 	unsigned long irq_flags;
 
