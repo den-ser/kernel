@@ -112,22 +112,6 @@ static struct snd_soc_dai_link msm8952_tasha_fe_dai[] = {
 		.codec_name = "tasha_codec",
 		.ops = &msm8952_cpe_ops,
 	},
-	/* FM Capture */
-	{
-		.name = "QUIN_MI2S Hostless",
-		.stream_name = "QUIN_MI2S Hostless",
-		.cpu_dai_name = "QUIN_MI2S_TX_HOSTLESS",
-		.platform_name = "msm-pcm-hostless",
-		.dynamic = 1,
-		.trigger = {SND_SOC_DPCM_TRIGGER_POST,
-			SND_SOC_DPCM_TRIGGER_POST},
-		.no_host_mode = SND_SOC_DAI_LINK_NO_HOST,
-		.ignore_suspend = 1,
-		/* this dai link has playback support */
-		.ignore_pmdown_time = 1,
-		.codec_dai_name = "snd-soc-dummy-dai",
-		.codec_name = "snd-soc-dummy",
-	},
 };
 
 static struct snd_soc_dai_link msm8952_tasha_be_dai[] = {
@@ -975,22 +959,6 @@ static struct snd_soc_dai_link msm8952_common_fe_dai[] = {
 		.codec_name = "snd-soc-dummy",
 		.be_id = MSM_FRONTEND_DAI_VOICEMMODE2,
 	},
-	/* High-Res Audio Playback */
-	{
-		.name = "MSM8X16 Media17",
-		.stream_name = "MultiMedia17",
-		.cpu_dai_name   = "MultiMedia17",
-		.platform_name  = "msm-pcm-dsp.3",
-		.dynamic = 1,
-		.trigger = {SND_SOC_DPCM_TRIGGER_POST,
-			    SND_SOC_DPCM_TRIGGER_POST},
-		.codec_dai_name = "snd-soc-dummy-dai",
-		.codec_name = "snd-soc-dummy",
-		.ignore_suspend = 1,
-		/* this dainlink has playback support */
-		.ignore_pmdown_time = 1,
-		.be_id = MSM_FRONTEND_DAI_MULTIMEDIA17,
-	}
 };
 
 static struct snd_soc_dai_link msm8952_common_be_dai[] = {
