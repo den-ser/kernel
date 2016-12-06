@@ -2282,6 +2282,10 @@ int msm_audrx_init(struct snd_soc_pcm_runtime *rtd)
 	snd_soc_dapm_ignore_suspend(dapm, "Headset Mic");
 	snd_soc_dapm_ignore_suspend(dapm, "ANCRight Headset Mic");
 	snd_soc_dapm_ignore_suspend(dapm, "ANCLeft Headset Mic");
+#ifdef CONFIG_ARCH_SONY_LOIRE
+	snd_soc_dapm_ignore_suspend(dapm, "AHC VSNS");
+	snd_soc_dapm_ignore_suspend(dapm, "AHC ISNS");
+#endif
 	snd_soc_dapm_ignore_suspend(dapm, "Digital Mic1");
 	snd_soc_dapm_ignore_suspend(dapm, "Digital Mic2");
 	snd_soc_dapm_ignore_suspend(dapm, "Digital Mic3");
