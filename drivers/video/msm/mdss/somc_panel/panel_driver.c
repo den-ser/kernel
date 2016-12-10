@@ -2962,7 +2962,6 @@ static int mdss_dsi_parse_panel_features(struct device_node *np,
 					__func__, __LINE__);
 	}
 
-	mdss_livedisplay_parse_dt(np, pinfo);
 	return 0;
 }
 
@@ -4056,6 +4055,7 @@ int mdss_panel_parse_dt(struct device_node *np,
 	mdss_dsi_parse_dcs_cmds(np, &ctrl_pdata->post_panel_on_cmds,
 		"qcom,mdss-dsi-post-panel-on-command", NULL);
 
+	mdss_livedisplay_parse_dt(np, pinfo);
 
 	return spec_pdata->parse_specific_dt(np, ctrl_pdata);
 
