@@ -150,8 +150,8 @@ static int mdss_livedisplay_update_pcc(struct mdss_livedisplay_ctx *mlc)
 
 	pcc_cfg.block = mlc->mfd->index + MDP_LOGICAL_BLOCK_DISP_0;
 	if (mlc->r == 32768 && mlc->g == 32768 && mlc->b == 32768)
-		pcc_cfg.ops = MDP_PP_OPS_DISABLE;
-	else
+/*		pcc_cfg.ops = MDP_PP_OPS_DISABLE;
+	else */
 		pcc_cfg.ops = MDP_PP_OPS_ENABLE;
 	pcc_cfg.ops |= MDP_PP_OPS_WRITE;
 	pcc_cfg.r.r = mlc->r;
