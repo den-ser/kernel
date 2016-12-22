@@ -36,7 +36,6 @@
 #include "../mdss_mdp.h"
 #include "../mdss_dsi.h"
 #include "somc_panels.h"
-#include "../mdss_livedisplay.h"
 
 #define DT_CMD_HDR 		  6
 #define MIN_REFRESH_RATE	  48
@@ -2962,7 +2961,6 @@ static int mdss_dsi_parse_panel_features(struct device_node *np,
 					__func__, __LINE__);
 	}
 
-	mdss_livedisplay_parse_dt(np, pinfo);
 	return 0;
 }
 
